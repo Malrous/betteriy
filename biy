@@ -1,5 +1,5 @@
 if IY_LOADED and not _G.IY_DEBUG == true then
-    warn("Infinite Yield Reborn is already loaded!")
+    warn("BetterIY is already loaded!")
     return
 end
 
