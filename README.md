@@ -1,2 +1,1 @@
-# BetterIY
-## The best Infinite Yield fork
+           # BetterIY - The Best Infinite Yield fork
