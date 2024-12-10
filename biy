@@ -4312,7 +4312,12 @@ CMDs[#CMDs + 1] = {NAME = 'multipleiyinstances / multiiy', DESC = 'Allows you to
 CMDs[#CMDs + 1] = {NAME = 'stopmultipleiyinstances / unmultiiy', DESC = 'Stops you to opening multiple instances of Infinite Yield (doesnt delete the instances)'}
 CMDs[#CMDs + 1] = {NAME = 'stopnotify / nonotify / antinotify', DESC = 'Stops notifying you after notify-included commands are executed'}
 CMDs[#CMDs + 1] = {NAME = 'allownotify / anotify', DESC = 'Stops nonotify'}
+CMDs[#CMDs + 1] = {NAME = 'killiy / deleteiy', DESC = 'Kills the BIY instance, also interferes with normal iy'}
+CMDs[#CMDs + 1] = {NAME = 'toomanyiy / tmiy', DESC = 'spam executes iy (dont try)'}
+CMDs[#CMDs + 1] = {NAME = 'stoptmiy / untmiy', DESC = 'Stops toomanyiy'}
 CMDs[#CMDs + 1] = {NAME = 'telekinesis', DESC = 'Gives you a tool that can grab unanchored parts'}
+CMDs[#CMDs + 1] = {NAME = 'addmoreunc / addunc', DESC = 'adds more unc to your exec (mostly not working)'}
+CMDs[#CMDs + 1] = {NAME = 'blockyavatar', DESC = 'Makes you have a blocky avatar (dont use if you already have a blocky avatar)'}
 CMDs[#CMDs + 1] = {NAME = 'audiologger / alogger', DESC = 'Opens Edges audio logger'}
 CMDs[#CMDs + 1] = {NAME = 'serverinfo / info', DESC = 'Gives you info about the server'}
 CMDs[#CMDs + 1] = {NAME = 'jobid', DESC = 'Copies the games JobId to your clipboard'}
@@ -10735,13 +10740,9 @@ addcmd('terminaldiscord',{'terminaldc'},function(args, speaker)
 end)
 
 addcmd('blockyavatar',{'deletecharactermeshes'},function(args, speaker)
-	if game:GetService("Players").LocalPlayer.Character.CharacterMesh then
 	for i = 1, 5 do
 		game:GetService("Players").LocalPlayer.Character.CharacterMesh:Destroy()
 		end
-	else
-		notify("Error",'You already have a blocky avatar (No CharacterMesh detected)')
-	end
 end)
 
 addcmd('audiologger',{'alogger'},function(args, speaker)
