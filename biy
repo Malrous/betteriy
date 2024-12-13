@@ -6297,7 +6297,7 @@ local TeleportCheck = false
 Players.LocalPlayer.OnTeleport:Connect(function(State)
 	if KeepInfYield and (not TeleportCheck) and queueteleport then
 		TeleportCheck = true
-		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Malrous/iyrb/refs/heads/main/iyr2'))()")
+		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Malrous/betteriy/refs/heads/main/biy'))()")
 	end
 end)
 
@@ -10379,8 +10379,6 @@ addcmd('killiy',{'deleteiy'},function(args, speaker)
 				logs:Destroy()
 				infoFrame:Destroy()(getgenv() or _G)["IY_LOADED"] = false
 				addcmd:Disconnect()
-    IY_LOADED = false
-	_G.IY_DEBUG = true
 end)
 
 addcmd('toomanyiy',{'tmiy'},function(args, speaker)
@@ -13273,4 +13271,3 @@ task.spawn(function()
 	minimizeHolder()
 	if IsOnMobile then notify("Unstable Device", "BetterIY would recommend using a computer as most features don't work on mobile") end
 end)
-execCmd("unmultiiy")
