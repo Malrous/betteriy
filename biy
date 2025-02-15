@@ -4,6 +4,10 @@ if IY_LOADED and not _G.IY_DEBUG == true then
     return
 end
 
+if getgenv().iykilled then
+	print("Last BetterIY Instance killed detected, turning off multipleiyinstances")
+end
+
 pcall(function() getgenv().IY_LOADED = true end)
 
 local cloneref = cloneref or function(o) return o end
@@ -18,7 +22,7 @@ if not game:IsLoaded() then
     notLoaded:Destroy()
 end
 
-currentVersion = "1.2"
+currentVersion = "1.3 BETA"
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
@@ -4302,7 +4306,7 @@ CMDs[#CMDs + 1] = {NAME = 'olddex / odex', DESC = 'Opens Old DEX by Raspberry Pi
 CMDs[#CMDs + 1] = {NAME = 'securedex / bypasseddex', DESC = 'Opens  DEX by Raspberry Pi'}
 CMDs[#CMDs + 1] = {NAME = 'xenodex / xdex', DESC = 'Opens Xeno Dex made to support Xeno'}
 CMDs[#CMDs + 1] = {NAME = 'remotespy / rspy', DESC = 'Opens Simple Spy V3'}
-CMDs[#CMDs + 1] = {NAME = 'unctest / unc', DESC = 'Tests your executors UNC'}
+CMDs[#CMDs + 1] = {NAME = 'unctest / unc', DESC = 'Tests your executors UNC / functionability'}
 CMDs[#CMDs + 1] = {NAME = 'directfling / dfling', DESC = 'Flings a player without walking past them'}
 CMDs[#CMDs + 1] = {NAME = 'loopdfling / ldfling', DESC = 'Loopflings a player without walking past them'}
 CMDs[#CMDs + 1] = {NAME = 'feclearchat / fecc', DESC = 'Clears the chat logs using whitespaces'}
@@ -4318,6 +4322,8 @@ CMDs[#CMDs + 1] = {NAME = 'stoptmiy / untmiy', DESC = 'Stops toomanyiy'}
 CMDs[#CMDs + 1] = {NAME = 'telekinesis', DESC = 'Gives you a tool that can grab unanchored parts'}
 CMDs[#CMDs + 1] = {NAME = 'addmoreunc / addunc', DESC = 'adds more unc to your exec (mostly not working)'}
 CMDs[#CMDs + 1] = {NAME = 'blockyavatar', DESC = 'Makes you have a blocky avatar (dont use if you already have a blocky avatar)'}
+CMDs[#CMDs + 1] = {NAME = 'vulnerabilitytest / vulntest', DESC = 'Tests your executors vulnerability'}
+CMDs[#CMDs + 1] = {NAME = 'infinitestore / infstore', DESC = 'Opens the OG Infinite Store'}
 CMDs[#CMDs + 1] = {NAME = 'audiologger / alogger', DESC = 'Opens Edges audio logger'}
 CMDs[#CMDs + 1] = {NAME = 'serverinfo / info', DESC = 'Gives you info about the server'}
 CMDs[#CMDs + 1] = {NAME = 'jobid', DESC = 'Copies the games JobId to your clipboard'}
@@ -6301,6 +6307,12 @@ Players.LocalPlayer.OnTeleport:Connect(function(State)
 	end
 end)
 
+--[[ Check if last BIY Instance was killed, if true will turn off multipleiyinstances to prevent multiple iy instances after executing killiy.
+
+Warning: This killiy-check function wont work if you execute another instance of IY that is not BIY (IY/IY forks)
+
+]]--
+
 addcmd('addalias',{},function(args, speaker)
 	if #args < 2 then return end
 	local cmd = string.lower(args[1])
@@ -7183,7 +7195,7 @@ addcmd('float', {'platform'},function(args, speaker)
 			end)
 			eUp = IYMouse.KeyUp:Connect(function(KEY)
 				if KEY == 'e' then
-					FloatValue = FloatValue - 0.5
+					FloatValue = FloatValue - 1.5
 				end
 			end)
 			qDown = IYMouse.KeyDown:Connect(function(KEY)
@@ -7193,7 +7205,7 @@ addcmd('float', {'platform'},function(args, speaker)
 			end)
 			eDown = IYMouse.KeyDown:Connect(function(KEY)
 				if KEY == 'e' then
-					FloatValue = FloatValue + 0.5
+					FloatValue = FloatValue + 1.5
 				end
 			end)
 			floatDied = speaker.Character:FindFirstChildOfClass('Humanoid').Died:Connect(function()
@@ -8540,7 +8552,7 @@ addcmd('btools',{},function(args, speaker)
 end)
 
 addcmd('f3x',{'fex'},function(args, speaker)
-	loadstring(game:GetObjects("rbxassetid://6695644299")[1].Source)()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/refs/heads/main/f3x.lua"))()
 end)
 
 addcmd('partpath',{'partname'},function(args, speaker)
@@ -9169,9 +9181,6 @@ addcmd('unfreezeanims',{},function(args, speaker)
 		v:AdjustSpeed(1)
 	end
 end)
-
-
-
 
 addcmd('respawn',{},function(args, speaker)
 	respawn(speaker)
@@ -10175,8 +10184,52 @@ addcmd('oldconsole',{},function(args, speaker)
 end)
 
 addcmd('explorer', {'dex'}, function(args, speaker)
-	notify('Loading Dark Dex 4.0', 'Hold on a sec')
-	loadstring(game:HttpGet("https://gist.githubusercontent.com/DinosaurXxX/b757fe011e7e600c0873f967fe427dc2/raw/ee5324771f017073fc30e640323ac2a9b3bfc550/dark%2520dex%2520v4"))();
+	notify('Loading', 'Hold on a sec')
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()
+	--I would like to say that ive replaced dark dex v4 with iy's original dex because of its shitty ass quality
+	--loadstring(game:HttpGet("https://gist.githubusercontent.com/DinosaurXxX/b757fe011e7e600c0873f967fe427dc2/raw/ee5324771f017073fc30e640323ac2a9b3bfc550/dark%2520dex%2520v4"))();
+end)
+
+addcmd('infinitestore', {'infstore'}, function(args, speaker)
+	notify('Loading', 'Hold on a sec')
+	-- Infinite store revived :0
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Infinite-Store/Infinite-Store/refs/heads/main/oldmain.lua"))()
+end)
+
+addcmd("addallplugins", {"loadallplugins"}, function(args, speaker)
+    if not listfiles or not isfolder then
+        notify("Incompatible Exploit", "Your exploit does not support this command (missing listfiles/isfolder)")
+        return
+    end
+
+    for _, filePath in ipairs(listfiles("")) do
+        local fileName = filePath:match("([^/\\]+%.iy)$")
+
+        if fileName and
+            fileName:lower() ~= "iy_fe.iy" and
+            not isfolder(fileName) and
+            not table.find(PluginsTable, fileName)
+        then
+            addPlugin(fileName)
+        end
+    end
+end)
+
+addcmd("mouseteleport", {"mousetp"}, function(args, speaker)
+    local root = getRoot(speaker.Character)
+    local pos = IYMouse.Hit
+    if root and pos then
+        root.CFrame = pos + Vector3.new(3, 1, 0)
+    end
+end)
+
+addcmd("chatlogswebhook", {"logswebhook"}, function(args, speaker)
+    if httprequest then
+        logsWebhook = args[1] or nil
+        updatesaves()
+    else
+        notify("Incompatible Exploit", "Your exploit does not support this command (missing request)")
+    end
 end)
 
 addcmd('olddex', {'odex'}, function(args, speaker)
@@ -10204,6 +10257,12 @@ addcmd('remotespy',{'rspy'},function(args, speaker)
 end)
 
 addcmd('unctest',{'unc'},function(args, speaker)
+	notify("Loading",'Hold on a sec')
+	-- credits to NamingConvention, creator of old UNC Test
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Malrous/unc/refs/heads/main/unctest"))()
+end)
+
+addcmd('vulntest',{'vulnerabilltytest'},function(args, speaker)
 	notify("Loading",'Hold on a sec')
 	-- credits to NamingConvention, creator of old UNC Test
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/Malrous/unc/refs/heads/main/unctest"))()
@@ -10249,7 +10308,7 @@ addcmd('directfling',{'dfling'},function(args, speaker)
 				pcall(function()
 					local otherRoot = getTorso(Players[bangplr].Character)
 					getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet
-				end)
+				end) 
 			end)
 		end
 	end
@@ -10321,6 +10380,39 @@ addcmd('facebang',{},function(args, speaker)
 	end
 end)
 
+addcmd('getfacebang',{},function(args, speaker)
+	if args[1] then
+		local players = getPlayer(args[1], speaker)
+		for _, v in pairs(players) do
+			execCmd("unbang")
+			task.wait()
+			isbanging = true
+			local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+			bangAnim = Instance.new("Animation")
+			bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
+			bang = humanoid:LoadAnimation(bangAnim)
+			bang:Play(0.1, 1, 1)
+			bang:AdjustSpeed(args[2] or 2)
+			bangDied = humanoid.Died:Connect(function()
+				bang:Stop()
+				bangAnim:Destroy()
+				bangDied:Disconnect()
+				isbanging = false
+			end)
+			local bangplr = Players[v].Name
+			local bangOffet = CFrame.new(0, 2.3, -1.1)
+			while task.wait() do
+				if isbanging == false then
+					break
+				end
+				local otherRoot = getTorso(Players[bangplr].Character)
+				getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet * CFrame.Angles(0,3.15,0)
+				getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
+			end
+		end
+	end
+end)
+
 addcmd('unfacebang',{},function(args, speaker)
 	bang:Stop()
 	bangAnim:Destroy()
@@ -10342,6 +10434,17 @@ addcmd('multipleiyinstances',{'multiiy'},function(args, speaker)
 		wait()
 	end
 end)
+
+--[[ Check if last BIY Instance was killed, if true will turn off multipleiyinstances to prevent multiple iy instances after executing killiy.
+
+Warning: This killiy-check function wont work if you execute another instance of IY that is not BIY (IY/IY forks)
+	
+]]--
+
+if getgenv().iykilled then
+    execCmd("stopmultipleiyinstances")
+	notify("Detection", 'Last BIY instance killed detected. Turning of multipleiyinstances to prevent more iy instances after the execution of killiy')
+end
 
 addcmd('stopmultipleiyinstances',{'unmultiiy'},function(args, speaker)
 	multiiy = false
@@ -10379,6 +10482,8 @@ addcmd('killiy',{'deleteiy'},function(args, speaker)
 				logs:Destroy()
 				infoFrame:Destroy()(getgenv() or _G)["IY_LOADED"] = false
 				addcmd:Disconnect()
+		execCmd("mutlipleiyinstances")
+	getgenv().iykilled = true
 end)
 
 addcmd('toomanyiy',{'tmiy'},function(args, speaker)
@@ -10395,6 +10500,11 @@ end)
 addcmd('stoptmiy',{'untmiy'},function(args, speaker)
 	tmiy = false
 	execCmd("unmultiiy")
+end)
+
+addcmd('replaceiyinstance',{'replaceiy'},function(args, speaker)
+	execCmd("mutlipleiyinstances")
+	execCmd("killiy")
 end)
 
 addcmd('telekinesis',{},function(args, speaker)
@@ -10740,6 +10850,12 @@ addcmd('terminaldiscord',{'terminaldc'},function(args, speaker)
 end)
 
 addcmd('blockyavatar',{'deletecharactermeshes'},function(args, speaker)
+	for i = 1, 5 do
+		game:GetService("Players").LocalPlayer.Character.CharacterMesh:Destroy()
+		end
+end)
+
+addcmd('calculator',{'calc'},function(args, speaker)
 	for i = 1, 5 do
 		game:GetService("Players").LocalPlayer.Character.CharacterMesh:Destroy()
 		end
@@ -11989,9 +12105,12 @@ addcmd('togglefling',{},function(args, speaker)
 end)
 
 addcmd("flyfling", {}, function(args, speaker)
-    execCmd("unvehiclefly\\unfling\\unnoclip")
+    execCmd("unvehiclefly\\unwalkfling")
     wait()
-    execCmd("vehiclefly\\fling\\noclip")
+    if args[1] and isNumber(args[1]) then
+        vehicleflyspeed = args[1]
+    end
+    execCmd("vehiclefly\\walkfling")
 end)
 
 addcmd("unflyfling", {}, function(args, speaker)
@@ -12554,6 +12673,7 @@ end)
 
 addcmd('hitbox',{},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
+	local transparency = args[3] and tonumber(args[3]) or 0.4
 	for i,v in pairs(players) do
 		if Players[v] ~= speaker and Players[v].Character:FindFirstChild('HumanoidRootPart') then
 			local sizeArg = tonumber(args[2])
@@ -12562,16 +12682,15 @@ addcmd('hitbox',{},function(args, speaker)
 			if Root:IsA("BasePart") then
 				if not args[2] or sizeArg == 1 then
 					Root.Size = Vector3.new(2,1,1)
-					Root.Transparency = 0.4
+					Root.Transparency = transparency
 				else
 					Root.Size = Size
-					Root.Transparency = 0.4
+					Root.Transparency = transparency
 				end
 			end
 		end
 	end
 end)
-
 addcmd('stareat',{'stare'},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players) do
