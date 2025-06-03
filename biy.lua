@@ -4,6 +4,10 @@ if IY_LOADED and not _G.IY_DEBUG == true then
     return
 end
 
+if getgenv().iykilled then
+	print("Last BetterIY Instance killed detected, turning off multipleiyinstances")
+end
+
 pcall(function() getgenv().IY_LOADED = true end)
 
 local cloneref = cloneref or function(o) return o end
@@ -18,7 +22,7 @@ if not game:IsLoaded() then
     notLoaded:Destroy()
 end
 
-currentVersion = "1.2"
+currentVersion = "1.3"
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
@@ -161,27 +165,23 @@ function randomString()
 	return table.concat(array)
 end
 
+Main = Instance.new("ScreenGui")
 PARENT = nil
-if get_hidden_gui or gethui then
-	local hiddenUI = get_hidden_gui or gethui
-	local Main = Instance.new("ScreenGui")
-	Main.Name = randomString()
-	Main.Parent = hiddenUI()
-	PARENT = Main
-elseif (not is_sirhurt_closure) and (syn and syn.protect_gui) then
-	local Main = Instance.new("ScreenGui")
-	Main.Name = randomString()
-	syn.protect_gui(Main)
-	Main.Parent = COREGUI
-	PARENT = Main
-elseif COREGUI:FindFirstChild('RobloxGui') then
-	PARENT = COREGUI.RobloxGui
+if gethui then
+Main.Name = randomString()
+Main.Parent = gethui()
+elseif get_hidden_gui then
+Main.Name = randomString()
+Main.Parent = get_hidden_gui()
+elseif COREGUI.RobloxGui then
+Main.Name = randomString()
+Main.Parent = COREGUI.RobloxGui
 else
-	local Main = Instance.new("ScreenGui")
-	Main.Name = randomString()
-	Main.Parent = COREGUI
-	PARENT = Main
+Main.Name = randomString()
+Main.Parent = COREGUI
 end
+
+PARENT = Main
 
 shade1 = {}
 shade2 = {}
@@ -2699,7 +2699,7 @@ reference = (function()
 		{47,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="CaseDesc",Parent={45},Position=UDim2.new(0,36,0,0),Size=UDim2.new(1,0,1,0),Text="- guest players (obsolete)",TextColor3=Color3.new(1,1,1),TextSize=14,TextWrapped=true,TextXAlignment=0,ZIndex=10,}},
 		{48,"Frame",{BackgroundColor3=Color3.new(0.1803921610117,0.1803921610117,0.1843137294054),BackgroundTransparency=1,BorderSizePixel=0,Name="Case",Parent={13},Position=UDim2.new(0,8,0,60),Size=UDim2.new(1,0,0,18),ZIndex=10,}},
 		{49,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=4,Name="CaseName",Parent={48},Size=UDim2.new(1,0,1,0),Text="bacons",TextColor3=Color3.new(1,1,1),TextSize=14,TextWrapped=true,TextXAlignment=0,ZIndex=10,}},
-		{50,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="CaseDesc",Parent={48},Position=UDim2.new(0,40,0,0),Size=UDim2.new(1,0,1,0),Text="- anyone with the \"bacon\" or pal hair",TextColor3=Color3.new(1,1,1),TextSize=14,TextWrapped=true,TextXAlignment=0,ZIndex=10,}},
+		{50,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="CaseDesc",Parent={48},Position=UDim2.new(0,40,0,0),Size=UDim2.new(1,0,1,0),Text="- anyone with the bacon or pal hair",TextColor3=Color3.new(1,1,1),TextSize=14,TextWrapped=true,TextXAlignment=0,ZIndex=10,}},
 		{51,"Frame",{BackgroundColor3=Color3.new(0.1803921610117,0.1803921610117,0.1843137294054),BackgroundTransparency=1,BorderSizePixel=0,Name="Case",Parent={13},Position=UDim2.new(0,8,0,60),Size=UDim2.new(1,0,0,18),ZIndex=10,}},
 		{52,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=4,Name="CaseName",Parent={51},Size=UDim2.new(1,0,1,0),Text="age[number]",TextColor3=Color3.new(1,1,1),TextSize=14,TextWrapped=true,TextXAlignment=0,ZIndex=10,}},
 		{53,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="CaseDesc",Parent={51},Position=UDim2.new(0,71,0,0),Size=UDim2.new(1,0,1,0),Text="- includes anyone below or at the given age",TextColor3=Color3.new(1,1,1),TextSize=14,TextWrapped=true,TextXAlignment=0,ZIndex=10,}},
@@ -4294,7 +4294,7 @@ function autoComplete(str,curText)
 end
 
 CMDs = {}
-CMDs[#CMDs + 1] = {NAME = 'discord / support / help', DESC = 'Invite to the Infinite Yield Reborn support server.'}
+CMDs[#CMDs + 1] = {NAME = 'discord / support / help', DESC = 'Invite to the BIY support server.'}
 CMDs[#CMDs + 1] = {NAME = 'console', DESC = 'Loads Roblox console'}
 CMDs[#CMDs + 1] = {NAME = 'oldconsole', DESC = 'Loads old Roblox console'}
 CMDs[#CMDs + 1] = {NAME = 'explorer / dex', DESC = 'Opens DEX V4 by Moon and Courtney'}
@@ -4302,7 +4302,7 @@ CMDs[#CMDs + 1] = {NAME = 'olddex / odex', DESC = 'Opens Old DEX by Raspberry Pi
 CMDs[#CMDs + 1] = {NAME = 'securedex / bypasseddex', DESC = 'Opens  DEX by Raspberry Pi'}
 CMDs[#CMDs + 1] = {NAME = 'xenodex / xdex', DESC = 'Opens Xeno Dex made to support Xeno'}
 CMDs[#CMDs + 1] = {NAME = 'remotespy / rspy', DESC = 'Opens Simple Spy V3'}
-CMDs[#CMDs + 1] = {NAME = 'unctest / unc', DESC = 'Tests your executors UNC'}
+CMDs[#CMDs + 1] = {NAME = 'unctest / unc', DESC = 'Tests your executors UNC / functionability'}
 CMDs[#CMDs + 1] = {NAME = 'directfling / dfling', DESC = 'Flings a player without walking past them'}
 CMDs[#CMDs + 1] = {NAME = 'loopdfling / ldfling', DESC = 'Loopflings a player without walking past them'}
 CMDs[#CMDs + 1] = {NAME = 'feclearchat / fecc', DESC = 'Clears the chat logs using whitespaces'}
@@ -4310,14 +4310,27 @@ CMDs[#CMDs + 1] = {NAME = 'facebang', DESC = '|owo|'}
 CMDs[#CMDs + 1] = {NAME = 'unfacebang', DESC = '|uwu|'}
 CMDs[#CMDs + 1] = {NAME = 'multipleiyinstances / multiiy', DESC = 'Allows you to open multiple instances of Infinite Yield'}
 CMDs[#CMDs + 1] = {NAME = 'stopmultipleiyinstances / unmultiiy', DESC = 'Stops you to opening multiple instances of Infinite Yield (doesnt delete the instances)'}
-CMDs[#CMDs + 1] = {NAME = 'stopnotify / nonotify / antinotify', DESC = 'Stops notifying you after notify-included commands are executed'}
+CMDs[#CMDs + 1] = {NAME = 'stopnotify / nonotify / antinotify', DESC = 'Stops notifying you after notify-included commands are executed (will show a blank notification if ran with a notification'}
 CMDs[#CMDs + 1] = {NAME = 'allownotify / anotify', DESC = 'Stops nonotify'}
-CMDs[#CMDs + 1] = {NAME = 'killiy / deleteiy', DESC = 'Kills the BIY instance, also interferes with normal iy'}
+CMDs[#CMDs + 1] = {NAME = 'killiy / deleteiy', DESC = 'Kills the BIY instance'}
 CMDs[#CMDs + 1] = {NAME = 'toomanyiy / tmiy', DESC = 'spam executes iy (dont try)'}
 CMDs[#CMDs + 1] = {NAME = 'stoptmiy / untmiy', DESC = 'Stops toomanyiy'}
 CMDs[#CMDs + 1] = {NAME = 'telekinesis', DESC = 'Gives you a tool that can grab unanchored parts'}
 CMDs[#CMDs + 1] = {NAME = 'addmoreunc / addunc', DESC = 'adds more unc to your exec (mostly not working)'}
 CMDs[#CMDs + 1] = {NAME = 'blockyavatar', DESC = 'Makes you have a blocky avatar (dont use if you already have a blocky avatar)'}
+CMDs[#CMDs + 1] = {NAME = 'vulnerabilitytest / vulntest', DESC = 'Tests your executors vulnerability'}
+CMDs[#CMDs + 1] = {NAME = 'infinitestore / infstore', DESC = 'Opens the OG Infinite Store'}
+CMDs[#CMDs + 1] = {NAME = 'disablescripts', DESC = 'Prevents any scripts in your game from running (breaks literally everything)'}
+CMDs[#CMDs + 1] = {NAME = 'enablescripts', DESC = 'Allows any scripts in your game from running'}
+CMDs[#CMDs + 1] = {NAME = 'setuserid / setid [player]', DESC = 'Sets your user id to any userid you like for example Roblox\'s userid'}
+CMDs[#CMDs + 1] = {NAME = 'glitch / glitchpos', DESC = 'Glitches you and also delays your position in other player\'s'}
+CMDs[#CMDs + 1] = {NAME = 'popupoverload', DESC = 'Spams popups that triggers roblox\'s gui limit'}
+CMDs[#CMDs + 1] = {NAME = 'swapidentity / replaceidentity [player]', DESC = 'Swaps someones identity with yours and yours with theirs (possible client-kick deflection)'}
+CMDs[#CMDs + 1] = {NAME = 'tooldesync / geardesync', DESC = 'Replicates the weird tool desync glitch on your equipped tool'}
+CMDs[#CMDs + 1] = {NAME = 'placeid / gameid', DESC = 'Gets the game\'s placeid'}
+CMDs[#CMDs + 1] = {NAME = 'jobid', DESC = 'Gets the game\'s jobid'}
+CMDs[#CMDs + 1] = {NAME = 'about / credits', DESC = 'Shows who worked on the script'}
+CMDs[#CMDs + 1] = {NAME = 'sunctest / sunc', DESC = 'Executes a more secure version of the unc test'}
 CMDs[#CMDs + 1] = {NAME = 'audiologger / alogger', DESC = 'Opens Edges audio logger'}
 CMDs[#CMDs + 1] = {NAME = 'serverinfo / info', DESC = 'Gives you info about the server'}
 CMDs[#CMDs + 1] = {NAME = 'jobid', DESC = 'Copies the games JobId to your clipboard'}
@@ -4506,7 +4519,7 @@ CMDs[#CMDs + 1] = {NAME = 'tpunanchored / tpua [player]', DESC = 'Teleports unan
 CMDs[#CMDs + 1] = {NAME = 'animsunanchored / freezeua', DESC = 'Freezes unanchored parts'}
 CMDs[#CMDs + 1] = {NAME = 'thawunanchored / thawua / unfreezeua', DESC = 'Thaws unanchored parts'}
 CMDs[#CMDs + 1] = {NAME = 'removeterrain / rterrain / noterrain', DESC = 'Removes all terrain'}
-CMDs[#CMDs + 1] = {NAME = 'clearnilinstances / nonilinstances / cni', DESC = 'Removes nil instances'}
+CMDs[#CMDs + 1] = {NAME = 'clearnilinstances / nonilinstances / cni', DESC = 'Removes nil instances (doesnt work on destroyed instances)'}
 CMDs[#CMDs + 1] = {NAME = 'destroyheight / dh [num]', DESC = 'Sets FallenPartsDestroyHeight'}
 CMDs[#CMDs + 1] = {NAME = 'fakeout', DESC = 'Tp to the void and then back (useful to kill people attached to you)'}
 CMDs[#CMDs + 1] = {NAME = 'antivoid', DESC = 'Prevents you from falling into the void by launching you upwards'}
@@ -4680,7 +4693,7 @@ CMDs[#CMDs + 1] = {NAME = 'mousesensitivity / ms [0-10]', DESC = 'Sets your mous
 CMDs[#CMDs + 1] = {NAME = 'clickdelete', DESC = 'Go to settings>Keybinds>Add for clicktp'}
 CMDs[#CMDs + 1] = {NAME = 'clickteleport', DESC = 'Go to settings>Keybinds>Add for click tp'}
 CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
-CMDs[#CMDs + 1] = {NAME = 'tools', DESC = 'Copies tools from ReplicatedStorage and Lighting'}
+CMDs[#CMDs + 1] = {NAME = 'tools', DESC = 'Copies tools and puts it in your backpack'}
 CMDs[#CMDs + 1] = {NAME = 'notools / removetools / deletetools', DESC = 'Removes tools from character and backpack'}
 CMDs[#CMDs + 1] = {NAME = 'deleteselectedtool / dst', DESC = 'Removes any currently selected tools'}
 CMDs[#CMDs + 1] = {NAME = 'grabtools', DESC = 'Automatically get tools that are dropped'}
@@ -4723,6 +4736,8 @@ CMDs[#CMDs + 1] = {NAME = 'promptr6', DESC = 'Prompts the game to switch your ri
 CMDs[#CMDs + 1] = {NAME = 'promptr15', DESC = 'Prompts the game to switch your rig type to R15'}
 CMDs[#CMDs + 1] = {NAME = 'wallwalk / walkonwalls', DESC = 'Walk on walls'}
 CMDs[#CMDs + 1] = {NAME = 'removeads / adblock', DESC = 'Automatically removes ad billboards'}
+CMDs[#CMDs + 1] = {NAME = 'jerk', DESC = 'Makes you jork it'}
+CMDs[#CMDs + 1] = {NAME = 'unsuspendvc', DESC = 'Unsuspends you from voice chat'}
 wait()
 
 for i = 1, #CMDs do
@@ -6297,9 +6312,17 @@ local TeleportCheck = false
 Players.LocalPlayer.OnTeleport:Connect(function(State)
 	if KeepInfYield and (not TeleportCheck) and queueteleport then
 		TeleportCheck = true
-		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Malrous/iyrb/refs/heads/main/iyr2'))()")
+		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Malrous/betteriy/refs/heads/main/biy'))()")
 	end
 end)
+
+--[[ Check if last BIY Instance was killed, if true will turn off multipleiyinstances to prevent multiple iy instances after executing killiy.
+
+Warning: This killiy-check function wont work if you execute another instance of IY that is not BIY (IY/IY forks)
+
+]]--
+
+actpT = {}
 
 addcmd('addalias',{},function(args, speaker)
 	if #args < 2 then return end
@@ -7183,7 +7206,7 @@ addcmd('float', {'platform'},function(args, speaker)
 			end)
 			eUp = IYMouse.KeyUp:Connect(function(KEY)
 				if KEY == 'e' then
-					FloatValue = FloatValue - 0.5
+					FloatValue = FloatValue - 1.5
 				end
 			end)
 			qDown = IYMouse.KeyDown:Connect(function(KEY)
@@ -7193,7 +7216,7 @@ addcmd('float', {'platform'},function(args, speaker)
 			end)
 			eDown = IYMouse.KeyDown:Connect(function(KEY)
 				if KEY == 'e' then
-					FloatValue = FloatValue + 0.5
+					FloatValue = FloatValue + 1.5
 				end
 			end)
 			floatDied = speaker.Character:FindFirstChildOfClass('Humanoid').Died:Connect(function()
@@ -8389,7 +8412,7 @@ addcmd('fixcam',{'restorecam'},function(args, speaker)
 	speaker.Character.Head.Anchored = false
 end)
 
-addcmd('enableshiftlock',{'enablesl','shiftlock'},function(args, speaker)
+addcmd('enableshiftlock',{'enablesl'},function(args, speaker)
 	speaker.DevEnableMouseLock = true
 	notify('Shiftlock','Shift lock is now available')
 end)
@@ -8540,7 +8563,7 @@ addcmd('btools',{},function(args, speaker)
 end)
 
 addcmd('f3x',{'fex'},function(args, speaker)
-	loadstring(game:GetObjects("rbxassetid://6695644299")[1].Source)()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/refs/heads/main/f3x.lua"))()
 end)
 
 addcmd('partpath',{'partname'},function(args, speaker)
@@ -9170,36 +9193,23 @@ addcmd('unfreezeanims',{},function(args, speaker)
 	end
 end)
 
-
-
-
 addcmd('respawn',{},function(args, speaker)
 	respawn(speaker)
 end)
 
 addcmd('refresh',{'re'},function(args, speaker)
-	refresh(speaker)
+	local refreshHumanoid = speaker.Character:FindFirstChildOfClass('Humanoid')
+	local Char = speaker.Character
+	local refreshHRPPos = Char:FindFirstChild('HumanoidRootPart').CFrame
+	speaker.Character:FindFirstChildOfClass('Humanoid'):ChangeState(Enum.HumanoidStateType.Dead)
+	task.spawn(function()
+		plr.CharacterAdded:Wait():WaitForChild('HumanoidRootPart').CFrame = refreshHRPPos
+	end)
 end)
 
 addcmd('god',{},function(args, speaker)
-	local Cam = workspace.CurrentCamera
-	local Pos, Char = Cam.CFrame, speaker.Character
-	local Human = Char and Char.FindFirstChildWhichIsA(Char, "Humanoid")
-	local nHuman = Human.Clone(Human)
-	nHuman.Parent, speaker.Character = Char, nil
-	nHuman.SetStateEnabled(nHuman, 15, false)
-	nHuman.SetStateEnabled(nHuman, 1, false)
-	nHuman.SetStateEnabled(nHuman, 0, false)
-	nHuman.BreakJointsOnDeath, Human = true, Human.Destroy(Human)
-	speaker.Character, Cam.CameraSubject, Cam.CFrame = Char, nHuman, wait() and Pos
-	nHuman.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
-	local Script = Char.FindFirstChild(Char, "Animate")
-	if Script then
-		Script.Disabled = true
-		wait()
-		Script.Disabled = false
-	end
-	nHuman.Health = nHuman.MaxHealth
+	speaker.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Dead, false)
+	speaker.Character:FindFirstChildOfClass("Humanoid").Health = speaker.Character:FindFirstChildOfClass("Humanoid").MaxHealth
 end)
 
 invisRunning = false
@@ -9560,18 +9570,11 @@ function noSitFunc()
 	end
 end
 addcmd("nosit", {}, function(args, speaker)
-	if noSit then noSit:Disconnect() nositDied:Disconnect() end
-	noSit = Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid'):GetPropertyChangedSignal("Sit"):Connect(noSitFunc)
-	local function nositDiedFunc()
-		repeat wait() until speaker.Character ~= nil and speaker.Character:FindFirstChildOfClass("Humanoid")
-		noSit:Disconnect()
-		noSit = Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid'):GetPropertyChangedSignal("Sit"):Connect(noSitFunc)
-	end
-	nositDied = speaker.CharacterAdded:Connect(nositDiedFunc)
+	speaker.Character:FindFirstChildWhichIsA("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Seated, false)
 end)
 
 addcmd("unnosit", {}, function(args, speaker)
-	if noSit then noSit:Disconnect() nositDied:Disconnect() end
+	speaker.Character:FindFirstChildWhichIsA("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.Seated, true)
 end)
 
 addcmd("jump", {}, function(args, speaker)
@@ -10123,7 +10126,7 @@ addcmd('tools',{'gears'},function(args, speaker)
 		end
 	end
 	copy(ReplicatedStorage)
-	notify('Tools','Copied tools from ReplicatedStorage and Lighting')
+	notify('Tools','Transferred copied tools into your backpack')
 end)
 
 addcmd('notools',{'rtools','clrtools','removetools','deletetools','dtools'},function(args, speaker)
@@ -10175,25 +10178,177 @@ addcmd('oldconsole',{},function(args, speaker)
 end)
 
 addcmd('explorer', {'dex'}, function(args, speaker)
-	notify('Loading Dark Dex 4.0', 'Hold on a sec')
-	loadstring(game:HttpGet("https://gist.githubusercontent.com/DinosaurXxX/b757fe011e7e600c0873f967fe427dc2/raw/ee5324771f017073fc30e640323ac2a9b3bfc550/dark%2520dex%2520v4"))();
+	notify('Loading', 'Hold on a sec')
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()
+	--I would   like to say that ive replaced dark dex v4 with iy's original dex because of its shitty ass quality
+	--loadstring(game:HttpGet("https://gist.githubusercontent.com/DinosaurXxX/b757fe011e7e600c0873f967fe427dc2/raw/ee5324771f017073fc30e640323ac2a9b3bfc550/dark%2520dex%2520v4"))();
+end)
+
+addcmd('infinitestore', {'infstore'}, function(args, speaker)
+	notify('Loading', 'Hold on a sec')
+	-- Infinite store revived :0
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Infinite-Store/Infinite-Store/refs/heads/main/oldmain.lua"))()
+end)
+
+-- This is where BIY stores new builds
+
+addcmd("addallplugins", {"loadallplugins"}, function(args, speaker)
+    if not listfiles or not isfolder then
+        notify("Incompatible Exploit", "Your exploit does not support this command (missing listfiles/isfolder)")
+        return
+    end
+
+    for _, filePath in ipairs(listfiles("")) do
+        local fileName = filePath:match("([^/\\]+%.iy)$")
+
+        if fileName and
+            fileName:lower() ~= "iy_fe.iy" and
+            not isfolder(fileName) and
+            not table.find(PluginsTable, fileName)
+        then
+            addPlugin(fileName)
+        end
+    end
+end)
+
+addcmd("mouseteleport", {"mousetp"}, function(args, speaker)
+    local root = getRoot(speaker.Character)
+    local pos = IYMouse.Hit
+    if root and pos then
+        root.CFrame = CFrame.new(pos.X, pos.Y + 3, pos.Z, select(4, root.CFrame:components()))
+    end
+end)
+
+addcmd("chatlogswebhook", {"logswebhook"}, function(args, speaker)
+    if httprequest then
+        logsWebhook = args[1] or nil
+        updatesaves()
+    else
+        notify("Incompatible Exploit", "Your exploit does not support this command (missing request)")
+    end
+end)
+
+addcmd("jerk", {}, function(args, speaker)
+	local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+	local backpack = speaker:FindFirstChildWhichIsA("Backpack")
+	if not humanoid or not backpack then return end
+ 
+	local tool = Instance.new("Tool")
+	tool.Name = "Jerk Off"
+	tool.ToolTip = "in the stripped club. straight up \"jorking it\" . and by \"it\" , haha, well. let's justr say. My peanits."
+	tool.RequiresHandle = false
+	tool.Parent = backpack
+ 
+	local jorkin = false
+	local track = nil
+ 
+	local function stopTomfoolery()
+		jorkin = false
+		if track then
+			track:Stop()
+			track = nil
+		end
+	end
+ 
+	tool.Equipped:Connect(function() jorkin = true end)
+	tool.Unequipped:Connect(stopTomfoolery)
+	humanoid.Died:Connect(stopTomfoolery)
+ 
+	while task.wait() do
+		if not jorkin then continue end
+ 
+		local isR15 = r15(speaker)
+		if not track then
+			local anim = Instance.new("Animation")
+			anim.AnimationId = not isR15 and "rbxassetid://72042024" or "rbxassetid://698251653"
+			track = humanoid:LoadAnimation(anim)
+		end
+ 
+		track:Play()
+		track:AdjustSpeed(isR15 and 0.7 or 0.65)
+		track.TimePosition = 0.6
+		task.wait(0.1)
+		while track and track.TimePosition < (not isR15 and 0.65 or 0.7) do task.wait(0.1) end
+		if track then
+			track:Stop()
+			track = nil
+		end
+	end
+ end)
+
+ addcmd("alignmentkeys", {}, function(args, speaker)
+	alignmentKeys = UserInputService.InputBegan:Connect(function(input, gameProcessed)
+		if gameProcessed then return end
+		if input.KeyCode == Enum.KeyCode.Comma then workspace.CurrentCamera:PanUnits(-1) end
+		if input.KeyCode == Enum.KeyCode.Period then workspace.CurrentCamera:PanUnits(1) end
+	end)
+	alignmentKeysEmotes = StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu)
+	StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu, false)
+ end)
+ 
+ addcmd("unalignmentkeys", {"noalignmentkeys"}, function(args, speaker)
+	if type(alignmentKeysEmotes) == "boolean" then
+		StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu, alignmentKeysEmotes)
+	end
+	alignmentKeys:Disconnect()
+ end)
+
+ addcmd("listento", {}, function(args, speaker)
+	execCmd("unlistento")
+	if not args[1] then return end
+ 
+	local player = Players:FindFirstChild(getPlayer(args[1], speaker)[1])
+	local root = player and player.Character and getRoot(player.Character)
+ 
+	if root then
+		SoundService:SetListener(Enum.ListenerType.ObjectPosition, root)
+		listentoChar = player.CharacterAdded:Connect(function()
+			repeat task.wait() until Players[player.Name].Character ~= nil and getRoot(Players[player.Name].Character)
+			SoundService:SetListener(Enum.ListenerType.ObjectPosition, getRoot(Players[player.Name].Character))
+		end)
+	end
+ end)
+ 
+ addcmd("unlistento", {}, function(args, speaker)
+	SoundService:SetListener(Enum.ListenerType.Camera)
+	listentoChar:Disconnect()
+ end)
+
+ addcmd("ctrllock", {}, function(args, speaker)
+	local boundKeys = speaker.PlayerScripts:WaitForChild("PlayerModule"):WaitForChild("CameraModule"):WaitForChild("MouseLockController"):FindFirstChild("BoundKeys")
+ 
+	if boundKeys then
+		boundKeys.Value = "LeftControl"
+	else
+		boundKeys = Instance.new("StringValue")
+		boundKeys.Name = "BoundKeys"
+		boundKeys.Value = "LeftControl"
+		boundKeys.Parent = speaker.PlayerScripts:WaitForChild("PlayerModule"):WaitForChild("CameraModule"):WaitForChild("MouseLockController")
+	end
+ end)
+ 
+ addcmd("unctrllock", {}, function(args, speaker)
+	local mouseLockController = speaker.PlayerScripts:WaitForChild("PlayerModule"):WaitForChild("CameraModule"):WaitForChild("MouseLockController")
+	local boundKeys = mouseLockController:FindFirstChild("BoundKeys")
+ 
+	if boundKeys then
+		boundKeys.Value = "LeftShift"
+	else
+		boundKeys = Instance.new("StringValue")
+		boundKeys.Name = "BoundKeys"
+		boundKeys.Value = "LeftShift"
+		boundKeys.Parent = mouseLockController
+	end
+ end)
+
+ addcmd("unsuspendvc", {}, function(args, speaker)
+    VoiceChatService:joinVoice()
 end)
 
 addcmd('olddex', {'odex'}, function(args, speaker)
 	notify('Loading Dex Explorer 2.0', 'Hold on a sec')
 
 	loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Dex%20Explorer.txt"))()
-end)
-
-addcmd('xenodex',{'xdex'},function(args, speaker)
-	notify('Notification', 'This only detects Xeno for now no other exploits that use Xeno API :(')
-	wait(2)
-	if not getexecutorname() == Xeno then
-		notify('Unsupported Executor', 'This only works for Xeno, consider using olddex or dex')
-	elseif getexecutorname() == Xeno then
-		notify('Loading Xeno Dex', 'Hold on a sec')
-	loadstring(game:HttpGet('https://raw.githubusercontent.com/Malrous/xenodex/refs/heads/main/dex.lua'))()
-	end
 end)
 
 addcmd('remotespy',{'rspy'},function(args, speaker)
@@ -10209,55 +10364,116 @@ addcmd('unctest',{'unc'},function(args, speaker)
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/Malrous/unc/refs/heads/main/unctest"))()
 end)
 
-addcmd('feclearchat',{'fecc'},function(args, speaker)
-	notify("Clear Chat",'Cleared chat! (if not then chat version not supported)')
-	-- credits to Asu
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/Malrous/clearchat/refs/heads/main/fe"))()
+addcmd('vulntest',{'vulnerabilltytest'},function(args, speaker)
+	notify("Loading",'Hold on a sec')
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/ltseverydayyou/uuuuuuu/main/VulnTest.lua"))()
 end)
 
-addcmd('antitrip',{},function(args, speaker)
-		while true do
-		game.Players.LocalPlayer.Character.Humanoid.Sit = false
-		wait(0.05)
-		end
+addcmd('feclearchat',{'fecc','clearchat'},function(args, speaker)
+	notify("Clear Chat",'Cleared chat!')
+	local blob = "\u{000D}" 
+	local message = "".. blob:rep(100)
+	TextChatService.TextChannels.RBXGeneral:SendAsync(message .. "Cleared text chat.")
 end)
 
 addcmd('print',{},function(args, speaker)
 	print(args[1])
 end)
 
-addcmd('directfling',{'dfling'},function(args, speaker)
-	execCmd("unbang")
-	wait()
-	local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
-	bangAnim = Instance.new("Animation")
-	bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
-	bang = humanoid:LoadAnimation(bangAnim)
-	bang:AdjustSpeed(args[2] or 3)
-	bangDied = humanoid.Died:Connect(function()
-		bang:Stop()
-		bangAnim:Destroy()
-		bangDied:Disconnect()
-		bangLoop:Disconnect()
-	end)
-	if args[1] then
-		local players = getPlayer(args[1], speaker)
-		for _, v in pairs(players) do
-			local bangplr = Players[v].Name
-			local bangOffet = CFrame.new(0, 0, 0)
-			bangLoop = RunService.Stepped:Connect(function()
-				pcall(function()
-					local otherRoot = getTorso(Players[bangplr].Character)
-					getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet
-				end)
-			end)
-		end
-	end
-	wait(0.2)
-	execCmd("fling")
+-- Credits to NOTGodlynoah to rewriting the whole directfling code
+
+local dflingActive = false
+local originalPosition, originalVelocity
+local bambam, dflingConn, targetCharTracker, velocityBurstConn
+
+addcmd('directfling', {'dfling'}, function(args, speaker)
+    local root = getRoot(speaker.Character)
+    if root then
+        originalPosition = root.CFrame
+        originalVelocity = root.Velocity
+    end
+
+    for _, child in pairs(speaker.Character:GetDescendants()) do
+        if child:IsA("BasePart") then
+            child.CustomPhysicalProperties = PhysicalProperties.new(math.huge, 0.3, 0.5)
+            child.Massless = true
+            child.CanCollide = false
+        end
+    end
+
+    -- speeen :3
+    bambam = Instance.new("BodyAngularVelocity")
+    bambam.Name = "DFlingSpin"
+    bambam.Parent = root
+    bambam.AngularVelocity = Vector3.new(0, 999999, 0)
+    bambam.MaxTorque = Vector3.new(0, math.huge, 0)
+    bambam.P = math.huge
+
+    dflingActive = true
+    if args[1] then
+        local players = getPlayer(args[1], speaker)
+        for _, v in pairs(players) do
+            local target = Players[v]
+            if target and target.Character and getRoot(target.Character) then
+                local theirRoot = getRoot(target.Character)
+                
+                targetCharTracker = target.Character:GetPropertyChangedSignal("Parent"):Connect(function()
+                    if not target.Character.Parent then
+                        execCmd('undfling')
+                    end
+                end)
+
+                -- noahs prediction shi-
+                dflingConn = RunService.Stepped:Connect(function()
+                    if dflingActive and theirRoot and root then
+                        pcall(function()
+                            local ping = (speaker:GetNetworkPing() or 150) / 1000
+                            local predictedPos = theirRoot.Position + theirRoot.Velocity * (ping + 0.1)
+                            root.CFrame = CFrame.new(predictedPos)
+                        end)
+                    end
+                end)
+
+                -- prolly could repeat this to make it stronger:
+                velocityBurstConn = RunService.RenderStepped:Connect(function()
+                    if dflingActive and root then
+                        for i = 1, 3 do
+                            local bv = Instance.new("BodyVelocity")
+                            bv.Velocity = Vector3.new(50000, 0, 0) -- 10x original, adjust direction if needed
+                            bv.MaxForce = Vector3.new(1e9, 1e9, 1e9)
+                            bv.P = 1e6
+                            bv.Parent = root
+                            game:GetService("Debris"):AddItem(bv, 0.15)
+                        end end end)
+
+-- if person dies stop fling
+                target.Character:WaitForChild("Humanoid").Died:Wait()
+                execCmd('undfling')
+ end end end
+end)
+
+addcmd('undfling', {'undfling'}, function()
+    dflingActive = false
+    
+    -- cleanup shit
+    if dflingConn then dflingConn:Disconnect() end
+    if targetCharTracker then targetCharTracker:Disconnect() end
+    if velocityBurstConn then velocityBurstConn:Disconnect() end
+    if bambam then bambam:Destroy() end
+    local root = getRoot(LocalPlayer.Character)
+    if root then
+        root.CFrame = originalPosition or root.CFrame
+        root.Velocity = originalVelocity or root.Velocity end
+    for _, child in pairs(LocalPlayer.Character:GetDescendants()) do
+        if child:IsA("BasePart") then
+            child.CustomPhysicalProperties = PhysicalProperties.new(0.7, 0.3, 0.5)
+            child.Massless = false
+            child.CanCollide = true
+ end end 
 end)
 
 addcmd('loopdfling',{'ldfling'},function(args, speaker)
+	--[[ this is the old method, still works good but needs a seamless fling
 	execCmd("unbang")
 	wait()
 	local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
@@ -10286,6 +10502,20 @@ addcmd('loopdfling',{'ldfling'},function(args, speaker)
 	end
 	wait(0.2)
 	execCmd("flyfling")
+	]]--
+	execCmd("nosit") -- Prevents from getting fling-trapped
+	local dflingToggle
+	local players = getPlayer(args[1]), speaker
+	for i,v in pairs(players) do
+	local dfOld = speaker.Character.HumanoidRootPart.CFrame
+	dflingToggle = true
+	execCmd("fling")
+	while task.wait() do
+		if dflingToggle == true then
+		getRoot(speaker.Character).CFrame = getRoot(Players[v].Character).CFrame
+		end
+    end
+    end
 end)
 
 addcmd('facebang',{},function(args, speaker)
@@ -10343,6 +10573,17 @@ addcmd('multipleiyinstances',{'multiiy'},function(args, speaker)
 	end
 end)
 
+--[[ Check if last BIY Instance was killed, if true will turn off multipleiyinstances to prevent multiple iy instances after executing killiy.
+
+Warning: This killiy-check function wont work if you execute another instance of IY that is not BIY (IY/IY forks)
+	
+]]--
+
+if getgenv().iykilled == true then
+    execCmd("stopmultipleiyinstances")
+	notify("Detection", 'Last BIY instance killed detected. Turned off multipleiyinstances to prevent more iy instances after the execution of killiy')
+end
+
 addcmd('stopmultipleiyinstances',{'unmultiiy'},function(args, speaker)
 	multiiy = false
 	IY_LOADED = true
@@ -10368,26 +10609,18 @@ end)
 
 addcmd('killiy',{'deleteiy'},function(args, speaker)
 	notify("Process",'Removing BetterIY instance')
-	wait(2)
-	Holder:Destroy()
-				Title_2:Destroy()
-				Tooltip:Destroy()
-				Notification:Destroy()
-				KeybindEditor:Destroy()
-				PluginEditor:Destroy()
-				ToPartFrame:Destroy()
-				logs:Destroy()
-				infoFrame:Destroy()(getgenv() or _G)["IY_LOADED"] = false
-				addcmd:Disconnect()
+	wait(1)
+	Main:Destroy()
+	execCmd("multipleiyinstances")
+	getgenv().iykilled = true
 end)
 
 addcmd('toomanyiy',{'tmiy'},function(args, speaker)
-	execCmd("multiiy")
+	execCmd("multipleiyinstances")
 	tmiy = true
-	while wait() do
+	while task.wait() do
 		if tmiy == true then
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
-	wait()
 		end
 	end
 end)
@@ -10395,6 +10628,11 @@ end)
 addcmd('stoptmiy',{'untmiy'},function(args, speaker)
 	tmiy = false
 	execCmd("unmultiiy")
+end)
+
+addcmd('replaceiyinstance',{'replaceiy'},function(args, speaker)
+	execCmd("mutlipleiyinstances")
+	execCmd("killiy")
 end)
 
 addcmd('telekinesis',{},function(args, speaker)
@@ -10742,7 +10980,197 @@ end)
 addcmd('blockyavatar',{'deletecharactermeshes'},function(args, speaker)
 	for i = 1, 5 do
 		game:GetService("Players").LocalPlayer.Character.CharacterMesh:Destroy()
+	end
+end)
+
+addcmd('executor',{'exec'},function(args, speaker)
+	notify("Loading", 'Hold on a sec')
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/Chillz-s-scripts/main/Synapse-X-Remake.lua"))()
+end)
+
+addcmd('disablescripts',{},function(args, speaker)
+    for i, v in pairs(game:GetDescendants()) do
+	    if v:IsA("BaseScript") then
+		    v.Enabled = false
+	    end
+    end
+	notify("Notification", 'Successfully disabled all scripts!')
+end)
+
+addcmd('enablescripts',{},function(args, speaker)
+    for i, v in pairs(game:GetDescendants()) do
+	    if v:IsA("BaseScript") then
+		    v.Enabled = true
+	    end
+    end
+	notify("Notification", 'Successfully enabled all scripts!')
+end)
+
+
+addcmd('setuserid',{},function(args, speaker)
+    speaker.UserId = game:GetService("Players"):GetUserIdFromNameAsync(args)
+end)
+
+addcmd('discordinvite',{'dcinvite'},function(args, speaker)
+    speaker.UserId = game:GetService("Players"):GetUserIdFromNameAsync(args)
+end)
+
+addcmd('alivedeath',{'livedeath'},function(args, speaker)
+	speaker.Character:FindFirstChildOfClass("Humanoid").Health = math.huge
+    speaker.Character:FindFirstChildOfClass("Humanoid").Health = 0
+    speaker.Character:FindFirstChildOfClass("Humanoid").Health = math.huge
+end)
+
+addcmd('glitch',{'glitchpos'},function(args, speaker)
+	local glitchmoveT = true
+	while glitchmoveT and task.wait() do
+        local oldgcf = speaker.Character:FindFirstChild("HumanoidRootPart").CFrame
+        speaker.Character:FindFirstChild("HumanoidRootPart").CFrame = oldgcf
+	end
+end)
+
+addcmd('swapidentity',{'replaceidentity'},function(args, speaker)
+	local iplayer = game:GetService("Players")[args[1]]
+	ipname = iplayer.Name
+	ipuid = iplayer.UserId
+	ipdn = iplayer.DisplayName
+	ipaa = iplayer.AccountAge
+	iphvb = iplayer.HasVer
+	iplayer.Name = speaker.Name
+	iplayer.UserId = speaker.UserId
+	iplayer.DisplayName = speaker.Name
+	speaker.Name = ipname
+    speaker.UserId = ipuid
+    speaker.DisplayName = ipdn
+end)
+
+addcmd('popupoverload',{},function(args, speaker)
+	while task.wait() do
+        createPopup("overloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverloadoverload")
+	end
+end)
+
+addcmd('scripttimeout',{},function(args, speaker)
+	game:GetService("ScriptContext").SetTimeout = args[1]
+end)
+
+addcmd('usevanillagame',{},function(args, speaker)
+	oldgame = game
+	game = workspace.Parent
+end)
+
+addcmd('usenormalgame',{'unusevanillagame'},function(args, speaker)
+	game = oldgame
+end)
+
+addcmd('fireevent',{'firesignal'},function(inst, signal)
+	if firesignal then
+		for _,v in pairs(game:GetDescendants()) do
+			if v.Name == inst then
+                firesignal(inst .. "." .. signal)
+			end
 		end
+	else
+		notify("Incompatible Exploit", "Your exploit does not support this command (missing firesignal)")
+	end
+end)
+
+addcmd('headless',{'removehead'},function(args, speaker)
+	notify("Notification", 'Removed your head')
+	speaker.Character:FindFirstChildOfClass("Humanoid"):SetStateEnabled("Dead", false)
+	if speaker.Character:FindFirstChild("Head") then
+		speaker.Character:FindFirstChild("Head"):Destroy()
+	else
+		notify("Error", 'Head not found')
+	end
+end)
+
+addcmd('thisisaverylongcommandandyouarecheckingthesourceifyouareusingthiscommandinsideofmybetterinfiniteyieldcreationthisisimpossibleforyoutoknowthiscommandexistsunlessyousawthissourceandjustcopyandpastedthisverylongtrollcommandthatwillcrashyourgamein100secondsandinsertakeyloggerlololbutanywaysmaybeyouwontseethetextisjusttypedinandalsohereiswhyitisnearlyimpossibleforyoutoknowthiscommandbecause98239814988273ujndsrfjidsfjndjfhjfrhjekjndsjkjfoekoprropkpotkpldpkaplwplqwertyuiopasdfghjklzxcvbnmnbvcxzlkjhgfdsapoiuytrewqlolololloandthatswhy',{'sl'},function(args, speaker)
+	return
+end)
+
+addcmd('tooldesync',{'geardesync'},function(args, speaker)
+	local oldcf = getRoot(speaker.Character).CFrame
+	if speaker.Character:FindFirstChildOfClass("Tool") then
+	    local desyncTool = speaker.Character:FindFirstChildOfClass("Tool")
+		desyncTool.Parent = speaker.Backpack
+		desyncTool.Equipped:Connect(function()
+		    getRoot(speaker.Character).CFrame = oldcf
+		end)
+		notify("Success", 'Successfully desynced tool!')
+	else
+		notify("Error", 'You must have a tool equipped')
+	end
+end)
+
+addcmd('fpsunlocker',{},function(args, speaker)
+	if setfpscap then
+		setfpscap(1e6)
+		notify("Notification", 'Successfully ran the fps unlocker')
+	else
+        notify("Incompatible Exploit", "Your exploit does not support this command (missing setfpscap)")
+	end
+end)
+
+addcmd('replicatefps',{'setfps'},function(args, speaker)
+	if setfpscap then
+		setfpscap(1e6) local MaxFPS = args[1] while true do local t0 = tick() cloneref(game:GetService("RunService")).Heartbeat:Wait() repeat until (t0 + 1/MaxFPS) < tick() end
+	else
+        local MaxFPS = args[1] while true do local t0 = tick() cloneref(game:GetService("RunService")).Heartbeat:Wait() repeat until (t0 + 1/MaxFPS) < tick() end
+	end
+end)
+
+addcmd('streamsnipe',{'joinuser'},function(args, speaker)
+	local snipeTarget = tonumber(Players:GetUserIdFromNameAsync(args[1]))
+	local placeId = args[2]
+	local Http = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..placeId.."/servers/Public?sortOrder=Asc&limit=100&cursor="))
+	notify("Streamsnipe", 'Searching specified player...')
+	for i = 1,100 do
+		for i,v in pairs(Http.data) do
+			for x,y in pairs(v.playerIds) do
+				if tonumber(y) == snipeTarget then
+					userFound = true
+					notify("Streamsnipe",'Found user!, teleporting...')
+					game:GetService("TeleportService"):TeleportToPlaceInstance(placeId, v.id, speaker)
+					break
+				end
+			end
+			if userFound then break end
+		end
+		if userFound then break end
+		if Http.nextPageCursor ~= null then Http = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..placeid.."/servers/Public?sortOrder=Asc&limit=100&cursor="..Http.nextPageCursor)) else break end
+	end
+	wait(3)
+	notify("Streamsnipe","User not found or is in a reserved server.")
+end)
+
+addcmd('antiteleportfails',{'antitpfails', 'notpfails', 'noteleportfails'},function(args, speaker)
+	speaker.OnTeleport:Connect(function(tpState, placeId, spawnName)
+	    if tpState == Enum.TeleportState.Failed then
+			TeleportService:Teleport(placeId, speaker)
+		end
+	end)
+end)
+
+addcmd('placeid',{'gameid'},function(args, speaker)
+	setclipboard(game.PlaceId)
+end)
+
+addcmd('jobid',{},function(args, speaker)
+	setclipboard(game.PlaceId)
+end)
+
+addcmd('about',{'credits'},function(args, speaker)
+	notify("Credits",'Credits to Edge, Toon, Zwolf and Moon for being the original creators of Infinite Yield')
+end)
+
+addcmd('sunc',{'sunctest'},function(args, speaker)
+	getgenv().sUNCDebug = {
+    ["printcheckpoints"] = false,
+    ["delaybetweentests"] = 0
+}
+
+loadstring(game:HttpGet("https://script.sunc.su/"))()
 end)
 
 addcmd('audiologger',{'alogger'},function(args, speaker)
@@ -10873,11 +11301,19 @@ addcmd('spamspeed',{},function(args, speaker)
 end)
 
 addcmd('bubblechat',{},function(args, speaker)
-	ChatService.BubbleChatEnabled = true
+	if isLegacyChat then
+		ChatService.BubbleChatEnabled = true
+	else
+		TextChatService.BubbleChatConfiguration.Enabled = true
+	end
 end)
 
 addcmd('unbubblechat',{'nobubblechat'},function(args, speaker)
-	ChatService.BubbleChatEnabled = false
+	if isLegacyChat then
+		ChatService.BubbleChatEnabled = false
+	else
+		TextChatService.BubbleChatConfiguration.Enabled = false
+	end
 end)
 
 addcmd('safechat',{},function(args, speaker)
@@ -11989,9 +12425,12 @@ addcmd('togglefling',{},function(args, speaker)
 end)
 
 addcmd("flyfling", {}, function(args, speaker)
-    execCmd("unvehiclefly\\unfling\\unnoclip")
+    execCmd("unvehiclefly\\unwalkfling")
     wait()
-    execCmd("vehiclefly\\fling\\noclip")
+    if args[1] and isNumber(args[1]) then
+        vehicleflyspeed = args[1]
+    end
+    execCmd("vehiclefly\\walkfling")
 end)
 
 addcmd("unflyfling", {}, function(args, speaker)
@@ -12554,6 +12993,7 @@ end)
 
 addcmd('hitbox',{},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
+	local transparency = args[3] and tonumber(args[3]) or 0.4
 	for i,v in pairs(players) do
 		if Players[v] ~= speaker and Players[v].Character:FindFirstChild('HumanoidRootPart') then
 			local sizeArg = tonumber(args[2])
@@ -12562,16 +13002,15 @@ addcmd('hitbox',{},function(args, speaker)
 			if Root:IsA("BasePart") then
 				if not args[2] or sizeArg == 1 then
 					Root.Size = Vector3.new(2,1,1)
-					Root.Transparency = 0.4
+					Root.Transparency = transparency
 				else
 					Root.Size = Size
-					Root.Transparency = 0.4
+					Root.Transparency = transparency
 				end
 			end
 		end
 	end
 end)
-
 addcmd('stareat',{'stare'},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players) do
@@ -12746,6 +13185,7 @@ addcmd('trip',{},function(args, speaker)
 		local root = getRoot(speaker.Character)
 		hum:ChangeState(0)
 		root.Velocity = root.CFrame.LookVector * 30
+		root.Parent:FindFirstChildOfClass('Humanoid').Sit = true
 	end
 end)
 
@@ -13166,7 +13606,7 @@ task.spawn(function()
 	end)
 
 	if success then
-		if currentVersion ~= 1.0 then
+		if currentVersion ~= 1.3 then
 			notify('Outdated','You are probably using a BetterIY fork or you actually use an outdated version')
 		end
 
@@ -13271,3 +13711,27 @@ task.spawn(function()
 	minimizeHolder()
 	if IsOnMobile then notify("Unstable Device", "BetterIY would recommend using a computer as most features don't work on mobile") end
 end)
+
+
+
+
+
+
+
+
+--[[
+Script made by
+
+$$\      $$\           $$\                                         
+$$$\    $$$ |          $$ |                                        
+$$$$\  $$$$ | $$$$$$\  $$ | $$$$$$\   $$$$$$\  $$\   $$\  $$$$$$$\ 
+$$\$$\$$ $$ | \____$$\ $$ |$$  __$$\ $$  __$$\ $$ |  $$ |$$  _____|
+$$ \$$$  $$ | $$$$$$$ |$$ |$$ |  \__|$$ /  $$ |$$ |  $$ |\$$$$$$\  
+$$ |\$  /$$ |$$  __$$ |$$ |$$ |      $$ |  $$ |$$ |  $$ | \____$$\ 
+$$ | \_/ $$ |\$$$$$$$ |$$ |$$ |      \$$$$$$  |\$$$$$$  |$$$$$$$  |
+\__|     \__| \_______|\__|\__|       \______/  \______/ \_______/ 
+                                                                   
+discord server: https://discord.gg/rWRuDNNUq8
+
+Have fun!
+]]--
